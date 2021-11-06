@@ -29,7 +29,7 @@ Export your whatsapp chat and input the data to learn about all of these interes
 
 Project Link - https://your-whatsapp-chat-analyser.herokuapp.com/ 
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+Here i have considered a whatsapp group of all the Formula1 fans in my college. Can you find some obvious patterns based on the screenshots shared below? :)
 
 ## Some Screenshots
 ![image](https://user-images.githubusercontent.com/93049358/140601747-0f0600c7-feb5-4abf-8b95-534a89a4483a.png)
@@ -65,3 +65,5 @@ This section should list any major frameworks/libraries used to bootstrap your p
 Prateek Dasgupta - prateek.dasgupe98@gmail.com
 
 Project Link: https://github.com/Prateek-Dasgupta/Whatsapp-Chat-Analyser
+
+<p align="right">(<a href="#top">back to top</a>)</p>
