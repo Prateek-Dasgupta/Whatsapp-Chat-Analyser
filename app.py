@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import streamlit as st
 import preprocessor
 import helper
+import seaborn as sns
 
 st.sidebar.title("Whatsapp Chat Analyser")
-
 uploaded_file = st.sidebar.file_uploader("Choose a file")
 
 if uploaded_file is not None:
@@ -16,7 +16,8 @@ if uploaded_file is not None:
 
     # fetch unique users
     user_list = df['users'].unique().tolist()
-    user_list.remove("group notification")
+    if 'group notification' in user_list:
+        user_list.remove("group notification")
     user_list.sort()
     user_list.insert(0, "Overall")
     selected_user = st.sidebar.selectbox("Show analysis wrt to", user_list)
@@ -83,17 +84,47 @@ if uploaded_file is not None:
             with col2:
                 st.dataframe(user_df)
 
+
+        if selected_user != 'Overall':
+            df = df[df['users'] == selected_user]
+
+        st.title('Activity')
+
+        col1, col2 = st.columns(2)
+        msg_per_day, day_of_week_count, month_count = helper.user_activity(selected_user, df)
+
+        with col1:
+            fig, ax = plt.subplots(figsize=(10, 10))
+            st.write(sns.violinplot(x='day_of_week', y='hour', data=df, order=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']))
+            ax.set_xticklabels(['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'])
+            st.pyplot(fig)
+
+        with col2:
+            fig, ax = plt.subplots(figsize=(10, 10))
+            ax.plot(msg_per_day[1:])
+            st.pyplot(fig)
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            fig, ax = plt.subplots()
+            ax.bar(day_of_week_count.index, day_of_week_count.values, color='green')
+            plt.xticks(rotation='vertical')
+            plt.xlabel('Day of the Week')
+            plt.ylabel('Percentage Activity')
+            st.pyplot(fig)
+        #st.line_chart(timeline_dict, width=5, height=0)
+
+        with col2:
+            fig, ax = plt.subplots()
+            ax.bar(month_count.index, month_count.values, color='orange')
+            plt.xticks(rotation='vertical')
+            plt.xlabel('Day of the Week')
+            plt.ylabel('Percentage Activity')
+            st.pyplot(fig)
+
         st.title('Your Word Cloud')
         df_wc = helper.create_wordcloud(selected_user, df)
         fig, ax = plt.subplots()
         ax.imshow(df_wc)
         st.pyplot(fig)
-
-        st.title('When are you most active')
-
-
-
-
-        # When are you most active?
-        # Your word cloud
-        #

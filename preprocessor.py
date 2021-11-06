@@ -31,6 +31,9 @@ def preprocess(data):
     df['year'] = df['date'].dt.year
     df['minute'] = df['date'].dt.minute
     df['hour'] = df['date'].dt.hour
+    df['timeline'] = df['date'].dt.to_period('M')
+    df['day_of_week'] = df['date'].dt.day_name()
+    df['message_date'] = df['date'].dt.date
 
     df.drop(columns = ['message'], inplace = True)
 
